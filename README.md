@@ -31,13 +31,16 @@ Login to bandit14:
 1. ls 
 2. cat sshkey.private 
 3. ssh -i sshkey.private bandit14@bandit.labs.overthewire.org -p 2220 **Mistake** 
+
 Reference: (https://help.ubuntu.com/community/SSH/OpenSSH/Keys)
 Checked a writeup and saw that the format should have been bandit14@localhost 
 4. ssh -i sshkey.private bandit14@localhost
+
 Successfully logged into bandit14. 
 5. cd .. : to change directory to home directory
 6. cd /etc/bandit_pass
 7. cat bandit14
+
 Password successfully obtained!
 
 **LEVEL 14 -> LEVEL 15**
