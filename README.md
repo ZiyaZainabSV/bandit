@@ -116,3 +116,25 @@ YOdjHdSOoKvDQNWu6ucyLRAWFuISeXw9a/9p7ftpxm0TSgyvmfLF2MIAEwyzRqaM
 dxviW8+TFVEBl1O4f7HVm6EpTscdDxU+bCXWkfjuRb7Dy9GOtt9JPsX8MBTakzh3
 vBgsyi/sN3RqRBcGU40fOoZyfAMT8s1m/uYv52O6IgeuZ/ujbjY=
 -----END RSA PRIVATE KEY-----
+
+
+**LEVEL 17 -> LEVEL 18**
+
+Goal: There are 2 files in the homedirectory: passwords.old and passwords.new. The password for the next level is in passwords.new and is the only line that has been changed between passwords.old and passwords.new
+
+1. Create a .key file to store the key in.
+*touch bandit17.key*
+*echo **key** >> bandit17.key*
+
+2. Login to bandit17 using the key. 
+*ssh -i bandit17.key bandit17@bandit.labs.overthewire.org -p 2220* : **Mistake** The permissions for bandit17.key are too open. 
+**Correction**: 
+Changing permission to read, write for owner and none for other users: *chmod 400 bandit17.key*
+*ssh -i bandit17.key bandit17@bandit.labs.overthewire.org* 
+
+3. Retrieving password: 
+*diff passwords.new passwords.old*
+
+**LEVEL 18 -> LEVEL 19**
+
+Password: kfBf3eYk5BPBRzwjqutbbfE887SVc5Yd
