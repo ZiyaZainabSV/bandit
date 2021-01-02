@@ -138,3 +138,16 @@ Changing permission to read, write for owner and none for other users: *chmod 40
 **LEVEL 18 -> LEVEL 19**
 
 Password: kfBf3eYk5BPBRzwjqutbbfE887SVc5Yd
+
+1. Tried logging into bandit18 but got automatically logged out. 
+2. 
+3. *ssh -t bandit18@bandit.labs.overthewire.org bash --norc --noprofile*
+Let me type in commands
+Reference: (https://serverfault.com/questions/94503/login-without-running-bash-profile-or-bashrc)
+
+  *ls* 
+  *cat readme*: Gave password 
+
+**LEVEL 19 -> LEVEL 20**
+
+Password: IueksS7Ubh8G3DCwVzrTd8rAVOwq3M5x
