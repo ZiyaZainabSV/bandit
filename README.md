@@ -140,14 +140,29 @@ Changing permission to read, write for owner and none for other users: *chmod 40
 Password: kfBf3eYk5BPBRzwjqutbbfE887SVc5Yd
 
 1. Tried logging into bandit18 but got automatically logged out. 
-2. 
-3. *ssh -t bandit18@bandit.labs.overthewire.org bash --norc --noprofile*
+
+2. *ssh -t bandit18@bandit.labs.overthewire.org bash --norc --noprofile*
 Let me type in commands
 Reference: (https://serverfault.com/questions/94503/login-without-running-bash-profile-or-bashrc)
 
+bash --noprofile: Does not read the .bashrc file. (i.e any of the startup or personal initialization files)
+--norc: Do not read and execute the initialization files. 
   *ls* 
   *cat readme*: Gave password 
 
 **LEVEL 19 -> LEVEL 20**
 
 Password: IueksS7Ubh8G3DCwVzrTd8rAVOwq3M5x
+
+1. Login
+2. Tried using several tutorials, didn't work. 
+3. Checked a writeup
+*ls*
+**only bandit20-do in list**
+*./bandit20-do cat /etc/bandit_pass/bandit20* 
+Gave password. 
+The ./ executes the file. Since only bandit20-do can execute /etc/bandit_pass/bandit20, the statement ./bandit20-do should be used to read the file. 
+
+**LEVEL 20 -> LEVEL 21**
+
+Password: GbKksEFF4yrVs6il55v6gwY5aVje5f0j
