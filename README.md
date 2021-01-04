@@ -166,3 +166,50 @@ The ./ executes the file. Since only bandit20-do can execute /etc/bandit_pass/ba
 **LEVEL 20 -> LEVEL 21**
 
 Password: GbKksEFF4yrVs6il55v6gwY5aVje5f0j
+
+1. Login
+2. Checking what all ports are listening
+*nmap -p localhost*: Did not work 
+*nmap localhost* : Gave list of listening ports
+3. Creating a new port for listening
+*nc -l 40000*: Gave no output. Had to terminate command (using ctrl+C)
+*nc -l 40000 &* : The command got executed
+4. Confirming that the port was created 
+*nstat -anlp |grep 40000*: No output 
+5. Checked a writeup
+*echo "GbKksEFF4yrVs6il55v6gwY5aVje5f0j" | nc -l -p 40000* 
+Opened a new terminal (mentioned in the writeup but not in the website). 
+*nmap localhost -p 40000* : Shows that the port is open
+6. *./suconnect 40000*: Could not connect 
+
+**STARTING OVER**
+
+1. Creating a new port to connect to suconnect
+Problem solved! The port closed too quickly the first time 
+*./suconnect 50000* : Gave password in the other terminal. 
+
+Reference: (https://kongwenbin.wordpress.com/2016/09/07/overthewire-bandit-level-20-to-level-21/)
+
+**LEVEL 21 -> LEVEL 22**
+
+Password: gE269g2h3mw3pwgrj0Ha9Uoqen1c9DGr
+
+1. Login
+2. Reading manuals for cron, crontab and crontab(5)
+3. *crontab -u bandit21 cron.d*: cron.d not a regular file
+4. *crontab -u bandit21 -l*: No permission. -l lists user's crontabs 
+5. *ls -la* : In the list, there is a file called cronjob_bandit22
+*crontab -u bandit21 cronjob_bandit22*: No permission
+6. *cat cronjob_bandit22*: Listed some file /usr/bin/cronjob_bandit22.sh
+7. *cat /usr/bin/cronjob_bandit22.sh*: The command being executed is chmod and then cat. 
+chmod 644 /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+cat /etc/bandit_pass/bandit22 > /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+The password may be in /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+8. *cat /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv* : Gave password
+
+References: (https://www.jonyschats.nl/writeups/bandit-level-21-to-22/)
+(https://phoenixnap.com/kb/how-to-list-display-view-all-cron-jobs-linux)
+
+**LEVEL 22 -> LEVEL 23**
+
+Password: Yk7owGAcWjwMVRwrTesJEwB7WVOiILLI
