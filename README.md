@@ -139,6 +139,7 @@ Changing permission to read, write for owner and none for other users: *chmod 40
 
 Password: kfBf3eYk5BPBRzwjqutbbfE887SVc5Yd
 
+Goal: The password for the next level is stored in a file readme in the homedirectory. Unfortunately, someone has modified .bashrc to log you out when you log in with SSH.
 1. Tried logging into bandit18 but got automatically logged out. 
 
 2. *ssh -t bandit18@bandit.labs.overthewire.org bash --norc --noprofile*
@@ -154,6 +155,7 @@ bash --noprofile: Does not read the .bashrc file. (i.e any of the startup or per
 
 Password: IueksS7Ubh8G3DCwVzrTd8rAVOwq3M5x
 
+Goal: To gain access to the next level, you should use the setuid binary in the homedirectory. Execute it without arguments to find out how to use it. The password for this level can be found in the usual place (/etc/bandit_pass), after you have used the setuid binary.
 1. Login
 2. Tried using several tutorials, didn't work. 
 3. Checked a writeup
@@ -167,6 +169,7 @@ The ./ executes the file. Since only bandit20-do can execute /etc/bandit_pass/ba
 
 Password: GbKksEFF4yrVs6il55v6gwY5aVje5f0j
 
+Goal: There is a setuid binary in the homedirectory that does the following: it makes a connection to localhost on the port you specify as a commandline argument. It then reads a line of text from the connection and compares it to the password in the previous level (bandit20). If the password is correct, it will transmit the password for the next level (bandit21)
 1. Login
 2. Checking what all ports are listening
 *nmap -p localhost*: Did not work 
@@ -194,6 +197,7 @@ Reference: (https://kongwenbin.wordpress.com/2016/09/07/overthewire-bandit-level
 
 Password: gE269g2h3mw3pwgrj0Ha9Uoqen1c9DGr
 
+Goal: A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed
 1. Login
 2. Reading manuals for cron, crontab and crontab(5)
 3. *crontab -u bandit21 cron.d*: cron.d not a regular file
@@ -213,3 +217,65 @@ References: (https://www.jonyschats.nl/writeups/bandit-level-21-to-22/)
 **LEVEL 22 -> LEVEL 23**
 
 Password: Yk7owGAcWjwMVRwrTesJEwB7WVOiILLI
+
+Goal: A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed.
+1. Login
+2. Changing directory to /etc/cron.d
+*ls -la*: In the list, there is a file named cronjob_bandit23 
+3. *cat cronjob_bandit23* : Returns the filepath of a file named cronjob_bandit23.sh 
+4. *cat /usr/bin/cronjob_bandit23.sh* : Returns a set of commands being executed. 
+The password for the next level is stored in a file /tmp/$mytarget. 
+Steps to find $mytarget: 
+  1. *whoami*: Returns bandit23
+  2. *echo I am bandit23 | md5sum | cut -d ' ' -f 1* : Returns $mytarget 
+
+5. Return to home directory. 
+*cat /tmp/8ca319486bfbbc3663ea0fbe81326349* : Returns password for next level
+
+**LEVEL 23 -> LEVEL 24** 
+
+Password: jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n
+
+Goal: A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed.
+
+NOTE: This level requires you to create your own first shell-script. This is a very big step and you should be proud of yourself when you beat this level!
+
+NOTE 2: Keep in mind that your shell script is removed once executed, so you may want to keep a copy around…
+
+Shell Script: Open-source computer program designed to be run by the Unix/Linux shell. 
+
+File to be created using an editor, with extension .sh. Start with *#!/bin/sh*
+To exexute, type *bash filename.sh*
+
+Reference: (https://www.guru99.com/introduction-to-shell-scripting.html#4)
+
+1. Login
+2. *cd /tmp/cron.d*
+3. *ls -la*: There is a file named cronjob_bandit24
+On opening, it returns a filepath. 
+4. *cat /usr/bin/cronjob_bandit24.sh* : The content is a shell script. 
+The script executes and deletes all scripts in /var/spool/$myname
+
+$myname is the current user, bandit23. 
+
+Creating a shell script to copy password for next level to a file. 
+  Creating a new directory in /tmp 
+ *mkdir /tmp/ziya*
+ *cd /tmp/ziya*
+ *touch password* 
+ *chmod 777 password*
+ *touch script.sh*
+ *chmod 777 script.sh*
+ *vim script.sh* : Opens editor
+ From the script in level 22: cat /etc/bandit_pass/bandit24 > /tmp/password : To copy password 
+
+5. Copy script to /var/spool/bandit24
+*cp script.sh /var/spool/bandit24*
+The script should be executed within 60 seconds. Once executed, the password will be available in the file. 
+*cat password* : Gave password 
+
+**LEVEL 24 -> LEVEL 25**
+
+Password: UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ
+
+
