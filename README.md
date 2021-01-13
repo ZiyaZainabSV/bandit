@@ -318,3 +318,112 @@ Gave multiple messages saying the pincode is wrong and finally got the password 
 Password: uNG9O58gUE7snukf3bvZ0rxhtnjzSGzG
 
 
+Goal: Logging in to bandit26 from bandit25 should be fairly easy… The shell for user bandit26 is not /bin/bash, but something else. Find out what it is, how it works and how to break out of it.
+
+1. Login
+2. *ls -la*: Gave no information regarding shells 
+3. *getent passwd*: Gave a list of all users and their shells. 
+Shell for bandit26 is found to be *usr/bin/showtext* 
+Reference:(https://linuxize.com/post/how-to-list-users-in-linux/)
+4. Tried finding documentation on showtext, didn't find anything.
+5. *showtext*: Stat of /home/bandit25/text.txt failed
+So tried using *showtext /home/bandit26*: Gave the previous message itself 
+6. *cd /home/bandit26* and *ls*: the directory contains text.txt but cannot be opened (no permissions)
+7. Return to /home/bandit25. 
+*ls*: A single file bandit26.sshkey 
+8. Tried *ssh -i bandit26.sshkey bandit26@localhost -p 2220* : Did not expect it to work since the shell for bandit26 is not /bin/bash.
+9. *cat /usr/bin/showtext* : A shell script
+*#!/bin/sh*
+
+*export TERM=linux*
+
+*more ~/text.txt*
+*exit 0*
+10. Checked a writeup (https://medium.com/@coturnix97/overthewires-bandit-25-26-shell-355d78fd2f4d)
+
+*more* views text files in a command prompt one screen at a time. Hence, the screen is made as small as possible so that it doesn't log us out of bandit26 after using ssh. 
+*v*: Simply typing the command redirects us to a vim editor 
+*:e* : To start editing a file 
+Typed *:e /etc/bandit_pass/bandit26* : The file in which the password for bandit26 is stored 
+Got the password 
+*:q* : To exit the editor 
+The screen is resized. Got logged out of bandit26
+*ssh bandit26@localost*: Asks for password, after which it logs out automatically. (since the shell is not /bin/bash)
+Hence, resizing the terminal to initiate *more* and using the vim command *:set shell = /bin/bash* to set shell to bash. 
+Then, *:shell*: Returns user to a shell 
+Thus, I am automatically logged into bandit26. 
+
+**LEVEL 26 -> LEVEL 27**
+
+Password: 5czgV9L3Xx8JPOyRbXh6lQbmIOWvPT6Z
+
+Goal: Good job getting a shell! Now hurry and grab the password for bandit27!
+
+1. *ls*: Two files; text.txt and bandit27-do
+2. *cat text.txt*: Not the password 
+3. *./bandit27-do*: To execute bandit27-do. Specifies syntax as ./bandit27-do user 
+ Trying with current user, i.e. bandit26. Says no such directory or file. Tried with bandit27 and got the same result
+ Trying *./bandit27-do /etc/bandit_pass/bandit27*: Permission denied 
+Checked my writeup that required setting up a setuid binary and got the following command: *./bandit20-do cat /etc bandit_pass/bandit20*
+Trying the same: *./bandit27-do cat /etc/bandit_pass/bandit27* : Gave password 
+
+**LEVEL 27 -> LEVEL 28**
+ 
+Password: 3ba3118a22e93127a4ed485be72ef5ea
+
+Goal: There is a git repository at ssh://bandit27-git@localhost/home/bandit27-git/repo. The password for the user bandit27-git is the same as for the user bandit27.
+
+Clone the repository and find the password for the next level.
+
+1. Login 
+2. *ls* : Nothing 
+3. *git clone ssh://bandit27-git@localhost/home/bandit27-git/repo*: Permission denied 
+Usually the directory /tmp allows us to create files, directories, etc. On trying the same command in /tmp, cloning is successful but no permission to use *ls*. 
+Thus, creating a temporary directory first and cloning again: *mkdir Ziya*
+Then, *cd Ziya* and *git clone ssh://bandit27-git@localhost/home/bandit27-git/repo*: Successful!
+*ls*: Lists a directory named repo 
+4. *cd repo* 
+*ls*: Consists of a README file 
+*cat README* : Gives password for next level!
+
+**LEVEL 28 -> LEVEL 29** 
+
+Password: 0ef186ac70e04ea33b4c1853d2526fa2
+
+Goal: There is a git repository at ssh://bandit28-git@localhost/home/bandit28-git/repo. The password for the user bandit28-git is the same as for the user bandit28.
+
+1. Repeating steps 1 through 4 of level 27 
+
+2. *cat README.md* : 
+# Bandit Notes
+Some notes for level29 of bandit.
+
+## credentials
+
+- username: bandit29
+- password: xxxxxxxxxx
+
+3. *git log -p -2* : To show last 2 changes made 
+Reference: (https://git-scm.com/book/en/v2/Git-Basics-Viewing-the-Commit-History)
+In the last change, the password was removed and replaced with 'xxx'. Hence the password is obtained. 
+
+**LEVEL 29 -> LEVEL 30** 
+
+Password: bbc96594b4e001778eee9975372716b2
+
+Goal: There is a git repository at ssh://bandit29-git@localhost/home/bandit29-git/repo. The password for the user bandit29-git is the same as for the user bandit29.
+
+Clone the repository and find the password for the next level.
+
+1. Cloned the repository in a directory in /tmp and changed directory to repo 
+2. *cat README.md* 
+# Bandit Notes
+Some notes for bandit30 of bandit.
+
+## credentials
+
+- username: bandit30
+- password: <no passwords in production!>
+
+3. *git log*: Only two commits
+*git log -p* : No password 
