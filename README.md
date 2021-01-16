@@ -395,10 +395,9 @@ Goal: There is a git repository at ssh://bandit28-git@localhost/home/bandit28-gi
 1. Repeating steps 1 through 4 of level 27 
 
 2. *cat README.md* : 
-# Bandit Notes
+Bandit Notes
 Some notes for level29 of bandit.
-
-## credentials
+ credentials
 
 - username: bandit29
 - password: xxxxxxxxxx
@@ -417,13 +416,45 @@ Clone the repository and find the password for the next level.
 
 1. Cloned the repository in a directory in /tmp and changed directory to repo 
 2. *cat README.md* 
-# Bandit Notes
-Some notes for bandit30 of bandit.
+ *Bandit Notes*
+*Some notes for bandit30 of bandit.*
 
-## credentials
+ *credentials*
 
-- username: bandit30
-- password: <no passwords in production!>
+*- username: bandit30*
+*- password: <no passwords in production!>*
 
 3. *git log*: Only two commits
 *git log -p* : No password 
+
+4. *git branch* : Only master
+*git branch -r*: lists the remote-tracking branches
+Gave a list of branches. 
+Changed branch to first one in the list: *git checkout dev* 
+Branch dev set up to track remote branch dev from origin.
+Switched to a new branch 'dev'
+
+5. *ls*: The branch contains a README.md and a directory *code*
+*cat README.md*: contains password!
+
+**LEVEL 30 -> LEVEL 31** 
+
+Password: 5b90576bedb2cc04c86a9e924ce42faf
+
+Goal: There is a git repository at ssh://bandit30-git@localhost/home/bandit30-git/repo. The password for the user bandit30-git is the same as for the user bandit30.
+
+Clone the repository and find the password for the next level.
+
+1. Cloning the repository. 
+2. *ls* : A README.md file
+*cat README.md* : Just one text; no password 
+*git log*: Only initial commit
+*git branch -r*: No other branches 
+
+Noticed that the spelling for the word 'empty' is wrong in the .md file. 
+Tried *base64 -d README.md* : Invalid input
+*base64 README.md* : Gave a string that looks like a password. Tried logging in and didn't work. 
+
+
+
+
